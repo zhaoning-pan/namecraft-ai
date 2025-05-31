@@ -1,38 +1,37 @@
 import { Helmet } from 'react-helmet-async';
 
 interface SEOProps {
-  title?: string;
-  description?: string;
-  keywords?: string;
-  canonicalUrl?: string;
-  ogImage?: string;
-  noindex?: boolean;
+  title: string;
+  description: string;
+  keywords: string;
+  image?: string;
+  url?: string;
 }
 
-const SEO = ({
-  title = 'NameCraft AI - Intelligent Name Generator for Babies, Brands, and Businesses',
-  description = 'Use AI-powered technology to find the perfect name for your baby, business, brand, or pet. Trusted by 50,000+ families and businesses worldwide.',
-  keywords = 'name generator, AI naming, baby names, business names, brand names, pet names, company name generator',
-  canonicalUrl = 'https://namecraft.ai',
-  ogImage = 'https://namecraft.ai/og-image.png',
-  noindex = false,
+const SEO: React.FC<SEOProps> = ({
+  title,
+  description,
+  keywords,
+  image = 'https://namecraft-ai.vercel.app/og-image.jpg',
+  url = 'https://namecraft-ai.vercel.app'
 }) => {
   const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'NameCraft AI',
-    description,
-    applicationCategory: 'UtilityApplication',
-    operatingSystem: 'Any',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD'
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "NameCraft AI",
+    "description": description,
+    "url": url,
+    "applicationCategory": "UtilityApplication",
+    "image": image,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      ratingCount: '50000'
+    "author": {
+      "@type": "Organization",
+      "name": "NameCraft AI",
+      "url": url
     }
   };
 
@@ -41,26 +40,36 @@ const SEO = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      {noindex && <meta name="robots" content="noindex,nofollow" />}
-      <link rel="canonical" href={canonicalUrl} />
 
-      {/* Open Graph */}
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={url} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:type" content="website" />
-      <meta property="og:image" content={ogImage} />
-      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:image" content={image} />
 
-      {/* Twitter Card */}
+      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={url} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image" content={image} />
+
+      {/* Additional SEO tags */}
+      <meta name="robots" content="index, follow" />
+      <meta name="language" content="English" />
+      <meta name="revisit-after" content="7 days" />
+      <meta name="author" content="NameCraft AI" />
 
       {/* Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
       </script>
+
+      {/* Favicon */}
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
     </Helmet>
   );
 };
